@@ -14,6 +14,13 @@ public class StudentDao extends Dao {
 	
 	private String baseSql = "select * from student where school_cd=?";
 	
+	/***
+	 * 学生番号を元に、一致する学生データをstudentテーブルから取得する
+	 * 
+	 * @param no
+	 * @return
+	 * @throws Exception
+	 */
 	public Student get(String no) throws Exception{
 		Student student = new Student();
 		//DB処理に必要なリソースの確立

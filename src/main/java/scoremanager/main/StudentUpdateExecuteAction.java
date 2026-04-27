@@ -6,6 +6,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
+/**
+ * 学生情報を更新するアクション
+ */
 public class StudentUpdateExecuteAction extends Action {
 	
 	public String execute(

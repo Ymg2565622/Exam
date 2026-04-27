@@ -15,6 +15,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
+/**
+ * 学生情報を登録するアクション
+ */
 public class StudentCreateExecuteAction extends Action {
 	
 	public String execute(

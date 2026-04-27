@@ -6,16 +6,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
+/**
+ * ログアウトするアクション、ログアウト画面へ遷移
+ */
 public class LogoutAction extends Action {
 	public String execute(
 			HttpServletRequest request, HttpServletResponse response
 	) throws Exception {
 		HttpSession session = request.getSession();
-		
-//		//セッションからユーザーデータを削除
-//		session.removeAttribute("user");
-//		//シーケンス図に書かれていないが教員データも残っているので一応消す
-//		session.removeAttribute("teacher");
 		
 		//セッションを削除
 		session.invalidate();

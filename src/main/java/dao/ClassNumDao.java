@@ -111,13 +111,18 @@ public class ClassNumDao extends Dao {
 		
 	}
 	
+	/**
+	 * クラス図に記述があるが、クラス管理については実装しないため未実装
+	 */
 	public boolean save(ClassNum classNum) throws Exception {
 		return false;
 		
 	}
 	
+	/**
+	 * クラス図に記述があるが、クラス管理については実装しないため未実装
+	 */
 	public boolean save(ClassNum classNum, String newClassNum) throws Exception {
-		return false;
-		
+		return false;	
 	}
 }

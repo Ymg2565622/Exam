@@ -9,6 +9,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import tool.Action;
 
+/**
+ * 学生情報更新用のフォームを表示するアクション
+ */
 public class StudentUpdateAction extends Action {
 	
 	public String execute(

@@ -8,6 +8,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * 各パスを変換して該当するアクションを実行するフロントコントローラ―。
+ * アクションの戻り値であるjspファイルにフォワードする。
+ * 
+ * 例外（DBエラー等のシステムエラー）については、コンソールにログを出し、web上ではエラーページに遷移する
+ */
 @WebServlet(urlPatterns={"*.action"})
 public class FrontController extends HttpServlet {
 	

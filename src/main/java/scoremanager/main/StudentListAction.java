@@ -15,6 +15,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
+/**
+ * 学生一覧の表示、フィルター処理を行うアクション。
+ * 各ページからの遷移、検索ボタンの押下によって実行され、学生一覧を表示する 
+ */
 public class StudentListAction extends Action {
 	
 	public String execute(

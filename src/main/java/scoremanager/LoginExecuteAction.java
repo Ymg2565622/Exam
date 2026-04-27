@@ -12,6 +12,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
+/**
+ * ログイン処理を実行するアクション
+ * 成功時はユーザーデータをセッションに保存してメニューへ
+ * 失敗時は再びログイン画面へ遷移しエラーを表示
+ */
 public class LoginExecuteAction extends Action {
 	public String execute(
 			HttpServletRequest request, HttpServletResponse response
@@ -38,7 +43,7 @@ public class LoginExecuteAction extends Action {
 			}
 			user.setAuthenticated(true);
 			session.setAttribute("user", user);
-			session.setAttribute("teacher", teacher);
+			session.setAttribute("teacher", teacher);	//ユーザーデータはここでセットしたteacherを使用するように
 			return "main/menu.jsp";
 		}
 		
