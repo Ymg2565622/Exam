@@ -31,10 +31,14 @@
 				style="height: 10rem; background-color: #bbd;">
 			<a href="${pageContext.request.contextPath}/scoremanager/main/SubjectList.action">科目管理</a>
 			</div>
-<%-- 			<div class="col d-flex align-items-center justify-content-center mx-2 rounded shadow"
+		</div>
+		<div class="row text-center px-4 fs-3 my-5">
+			<div class="col d-flex align-items-center justify-content-center mx-2 rounded shadow"
 				style="height: 10rem; background-color: #ddb;">
 				<a href="${pageContext.request.contextPath}/scoremanager/main/ClassList.action">クラス管理</a>
-			</div> --%>
+			</div>
+			<div class="col mx-2"></div>
+			<div class="col mx-2"></div>
 		</div>
 	</c:param>
 </c:import>
