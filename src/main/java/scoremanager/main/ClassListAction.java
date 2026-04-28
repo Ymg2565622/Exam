@@ -10,8 +10,7 @@ import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
 /**
- * クラス一覧の表示、フィルター処理を行うアクション。
- * 各ページからの遷移、検索ボタンの押下によって実行され、学生一覧を表示する 
+ * クラス一覧を表示する
  */
 public class ClassListAction extends Action {
 	
