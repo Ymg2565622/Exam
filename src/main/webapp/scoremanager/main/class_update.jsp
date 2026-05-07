@@ -13,6 +13,7 @@
 		<form action="ClassUpdateExecute.action" method="post">
 			<label class="form-label" for="class-no-input">クラス番号</label>
 			<input class="form-control mb-3 " id="class-no-input"type="text" name="new_class_num" value="${classNum}">
+			<div class="text-warning">${error}</div>
 			<input class="btn btn-primary mb-3" id="login-button" type="submit" value="変更">
 			<input type="hidden" name="class_num" value="${classNum}">
 		</form>
