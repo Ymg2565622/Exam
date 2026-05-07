@@ -37,7 +37,10 @@
 				style="height: 10rem; background-color: #ddb;">
 				<a href="${pageContext.request.contextPath}/scoremanager/main/ClassList.action">クラス管理</a>
 			</div>
-			<div class="col mx-2"></div>
+			<div class="col d-flex align-items-center justify-content-center mx-2 rounded shadow"
+				style="height: 10rem; background-color: #bdd;">
+				<a href="${pageContext.request.contextPath}/scoremanager/main/TeacherList.action">ユーザー管理</a>
+			</div>
 			<div class="col mx-2"></div>
 		</div>
 	</c:param>

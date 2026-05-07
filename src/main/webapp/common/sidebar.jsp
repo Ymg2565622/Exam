@@ -29,6 +29,9 @@
 		   <li class="mb-3">
 		   	<a href="${pageContext.request.contextPath}/scoremanager/main/ClassList.action">クラス管理</a>
 		   </li>
+		   <li class="mb-3">
+		   	<a href="${pageContext.request.contextPath}/scoremanager/main/TeacherList.action">ユーザー管理</a>
+		   </li>
 		 </ul>
 	</nav>
 </div>
