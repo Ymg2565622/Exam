@@ -27,13 +27,29 @@ public class ClassUpdateExecuteAction extends Action {
 		String classNumStr = request.getParameter("class_num");
 		//新しいクラス番号を取得
 		String newClassNumStr = request.getParameter("new_class_num");
+		
+		//同じ番号ならエラーを出す
+		if (classNumStr.equals(newClassNumStr)) {
+			request.setAttribute("error", "変更前と同じ番号です");
+			return "class_update.jsp";
+		}
+		
 		//クラス番号テーブル操作用Dao
 		ClassNumDao classNumDao = new ClassNumDao();
-		//クラス番号の更新処理
-		//元のクラス番号を取得
-		ClassNum classNum = classNumDao.get(classNumStr, school);
-		//更新処理
-		classNumDao.save(classNum, newClassNumStr);
+
+		
+		//既に同じクラス番号が登録されているかチェック
+		if (classNumDao.get(newClassNumStr, school) == null) {
+			//クラス番号の更新処理
+			//元のクラス番号を取得
+			ClassNum classNum = classNumDao.get(classNumStr, school);
+			//更新処理
+			classNumDao.save(classNum, newClassNumStr);
+		} else {
+			//既に登録されていればエラーを出して再表示
+			request.setAttribute("error", "クラス番号が重複しています");
+			return "class_update.jsp";
+		}
 		
 		return "class_update_done.jsp";
 	}
