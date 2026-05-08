@@ -22,7 +22,7 @@
 			<input class="form-control mb-2" id="teacher-password-input" type="password" name="password" 
 				placeholder="パスワードを入力してください" required>
 			<div class="text-warning">${errors.get("password")}</div>
-			<label class="form-label mt-2" for="teacher-confirmPassword-input">パスワード確認用</label>
+			<label class="form-label mt-2" for="teacher-confirmPassword-input">確認用パスワード</label>
 			<input class="form-control mb-2" id="steacher-confirmPassword-input" type="password" name="confirmPassword" 
 				placeholder="同じパスワードを入力してください" required>
 			<button class="btn btn-secondary mt-2 mb-2" id="end-button" type="submit">登録して終了</button>
