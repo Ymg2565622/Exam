@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import bean.School;
@@ -18,7 +19,17 @@ public class SubjectDao extends Dao {
 	
 
 	public List<Subject> filter(School school) throws Exception {
-		return null;
+		List<Subject> list = new ArrayList<>();
+		
+		//テスト用データを作成
+		Subject subject = new Subject();
+		subject.setSchool(school);
+		subject.setCd("ts1");
+		subject.setName("テスト用科目");
+		
+		list.add(subject);
+		
+		return list;
 	}
 	
 
