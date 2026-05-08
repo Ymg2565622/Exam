@@ -15,8 +15,10 @@ public class TestDao extends Dao {
 
     /**
      * 成績1件取得
+     * school を引数追加
      */
-    public Test get(Student student, Subject subject, int no) throws Exception {
+    public Test get(School school, Student student, Subject subject, int no)
+            throws Exception {
 
         Test test = null;
 
@@ -24,15 +26,17 @@ public class TestDao extends Dao {
 
         String sql =
             "SELECT * FROM test " +
-            "WHERE student_no = ? " +
+            "WHERE school_cd = ? " +
+            "AND student_no = ? " +
             "AND subject_cd = ? " +
             "AND no = ?";
 
         PreparedStatement st = con.prepareStatement(sql);
 
-        st.setString(1, student.getNo());
-        st.setString(2, subject.getCd());
-        st.setInt(3, no);
+        st.setString(1, school.getCd());
+        st.setString(2, student.getNo());
+        st.setString(3, subject.getCd());
+        st.setInt(4, no);
 
         ResultSet rs = st.executeQuery();
 
@@ -42,12 +46,13 @@ public class TestDao extends Dao {
 
             test.setStudent(student);
             test.setSubject(subject);
-            test.setSchool(student.getSchool());
+            test.setSchool(school);
             test.setClassNum(rs.getString("class_num"));
             test.setNo(rs.getInt("no"));
             test.setPoint(rs.getInt("point"));
         }
 
+        rs.close();
         st.close();
         con.close();
 
@@ -56,7 +61,7 @@ public class TestDao extends Dao {
 
     /**
      * 成績一覧取得
-     * 
+     *
      * ※ filterについてはクラス図・シーケンス図に矛盾があるため、
      * 現在は既存仕様に合わせて実装
      */
@@ -104,6 +109,7 @@ public class TestDao extends Dao {
             list.add(test);
         }
 
+        rs.close();
         st.close();
         con.close();
 
@@ -112,11 +118,12 @@ public class TestDao extends Dao {
 
     /**
      * 成績登録・更新
-     * 
-     * List<Test> をまとめて保存
-     * 
-     * 既存データがあれば UPDATE
-     * 無ければ INSERT
+     *
+     * update と save を統合
+     * List<Test> をまとめて処理
+     *
+     * 既存データがある場合 UPDATE
+     * 無い場合 INSERT
      */
     public boolean save(List<Test> list) throws Exception {
 
@@ -129,15 +136,17 @@ public class TestDao extends Dao {
             // 既存データ確認
             String checkSql =
                 "SELECT COUNT(*) FROM test " +
-                "WHERE student_no = ? " +
+                "WHERE school_cd = ? " +
+                "AND student_no = ? " +
                 "AND subject_cd = ? " +
                 "AND no = ?";
 
             PreparedStatement checkSt = con.prepareStatement(checkSql);
 
-            checkSt.setString(1, test.getStudent().getNo());
-            checkSt.setString(2, test.getSubject().getCd());
-            checkSt.setInt(3, test.getNo());
+            checkSt.setString(1, test.getSchool().getCd());
+            checkSt.setString(2, test.getStudent().getNo());
+            checkSt.setString(3, test.getSubject().getCd());
+            checkSt.setInt(4, test.getNo());
 
             ResultSet rs = checkSt.executeQuery();
 
@@ -145,6 +154,7 @@ public class TestDao extends Dao {
 
             boolean exists = rs.getInt(1) > 0;
 
+            rs.close();
             checkSt.close();
 
             PreparedStatement st;
@@ -154,16 +164,18 @@ public class TestDao extends Dao {
                 // UPDATE
                 String updateSql =
                     "UPDATE test SET point = ? " +
-                    "WHERE student_no = ? " +
+                    "WHERE school_cd = ? " +
+                    "AND student_no = ? " +
                     "AND subject_cd = ? " +
                     "AND no = ?";
 
                 st = con.prepareStatement(updateSql);
 
                 st.setInt(1, test.getPoint());
-                st.setString(2, test.getStudent().getNo());
-                st.setString(3, test.getSubject().getCd());
-                st.setInt(4, test.getNo());
+                st.setString(2, test.getSchool().getCd());
+                st.setString(3, test.getStudent().getNo());
+                st.setString(4, test.getSubject().getCd());
+                st.setInt(5, test.getNo());
 
             } else {
 
