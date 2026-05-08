@@ -14,9 +14,9 @@ import bean.Test;
 public class TestDao extends Dao {
 
     /**
-     * 成績を1件取得
+     * 成績1件取得
      */
-    public Test get(Student student, Subject subject, School school, int no) throws Exception {
+    public Test get(Student student, Subject subject, int no) throws Exception {
 
         Test test = null;
 
@@ -26,27 +26,26 @@ public class TestDao extends Dao {
             "SELECT * FROM test " +
             "WHERE student_no = ? " +
             "AND subject_cd = ? " +
-            "AND school_cd = ? " +
             "AND no = ?";
 
         PreparedStatement st = con.prepareStatement(sql);
 
         st.setString(1, student.getNo());
         st.setString(2, subject.getCd());
-        st.setString(3, school.getCd());
-        st.setInt(4, no);
+        st.setInt(3, no);
 
         ResultSet rs = st.executeQuery();
 
         if (rs.next()) {
+
             test = new Test();
 
             test.setStudent(student);
             test.setSubject(subject);
-            test.setSchool(school);
+            test.setSchool(student.getSchool());
+            test.setClassNum(rs.getString("class_num"));
             test.setNo(rs.getInt("no"));
             test.setPoint(rs.getInt("point"));
-            test.setClassNum(rs.getString("class_num"));
         }
 
         st.close();
@@ -57,8 +56,12 @@ public class TestDao extends Dao {
 
     /**
      * 成績一覧取得
+     * 
+     * ※ filterについてはクラス図・シーケンス図に矛盾があるため、
+     * 現在は既存仕様に合わせて実装
      */
-    public List<Test> filter(School school) throws Exception {
+    public List<Test> filter(School school, String classNum, Subject subject, int no)
+            throws Exception {
 
         List<Test> list = new ArrayList<>();
 
@@ -67,11 +70,17 @@ public class TestDao extends Dao {
         String sql =
             "SELECT * FROM test " +
             "WHERE school_cd = ? " +
-            "ORDER BY class_num, student_no";
+            "AND class_num = ? " +
+            "AND subject_cd = ? " +
+            "AND no = ? " +
+            "ORDER BY student_no";
 
         PreparedStatement st = con.prepareStatement(sql);
 
         st.setString(1, school.getCd());
+        st.setString(2, classNum);
+        st.setString(3, subject.getCd());
+        st.setInt(4, no);
 
         ResultSet rs = st.executeQuery();
 
@@ -82,15 +91,15 @@ public class TestDao extends Dao {
             Student student = new Student();
             student.setNo(rs.getString("student_no"));
 
-            Subject subject = new Subject();
-            subject.setCd(rs.getString("subject_cd"));
+            Subject sub = new Subject();
+            sub.setCd(rs.getString("subject_cd"));
 
             test.setStudent(student);
-            test.setSubject(subject);
+            test.setSubject(sub);
             test.setSchool(school);
+            test.setClassNum(rs.getString("class_num"));
             test.setNo(rs.getInt("no"));
             test.setPoint(rs.getInt("point"));
-            test.setClassNum(rs.getString("class_num"));
 
             list.add(test);
         }
@@ -102,89 +111,83 @@ public class TestDao extends Dao {
     }
 
     /**
-     * 成績登録
+     * 成績登録・更新
+     * 
+     * List<Test> をまとめて保存
+     * 
+     * 既存データがあれば UPDATE
+     * 無ければ INSERT
      */
-    public boolean save(Test test) throws Exception {
+    public boolean save(List<Test> list) throws Exception {
 
         Connection con = getConnection();
 
-        String sql =
-            "INSERT INTO test " +
-            "(student_no, subject_cd, school_cd, no, point, class_num) " +
-            "VALUES (?, ?, ?, ?, ?, ?)";
+        int count = 0;
 
-        PreparedStatement st = con.prepareStatement(sql);
+        for (Test test : list) {
 
-        st.setString(1, test.getStudent().getNo());
-        st.setString(2, test.getSubject().getCd());
-        st.setString(3, test.getSchool().getCd());
-        st.setInt(4, test.getNo());
-        st.setInt(5, test.getPoint());
-        st.setString(6, test.getClassNum());
+            // 既存データ確認
+            String checkSql =
+                "SELECT COUNT(*) FROM test " +
+                "WHERE student_no = ? " +
+                "AND subject_cd = ? " +
+                "AND no = ?";
 
-        int count = st.executeUpdate();
+            PreparedStatement checkSt = con.prepareStatement(checkSql);
 
-        st.close();
-        con.close();
+            checkSt.setString(1, test.getStudent().getNo());
+            checkSt.setString(2, test.getSubject().getCd());
+            checkSt.setInt(3, test.getNo());
 
-        return count > 0;
-    }
+            ResultSet rs = checkSt.executeQuery();
 
-    /**
-     * 成績更新
-     */
-    public boolean update(Test test) throws Exception {
+            rs.next();
 
-        Connection con = getConnection();
+            boolean exists = rs.getInt(1) > 0;
 
-        String sql =
-            "UPDATE test SET point = ?, class_num = ? " +
-            "WHERE student_no = ? " +
-            "AND subject_cd = ? " +
-            "AND school_cd = ? " +
-            "AND no = ?";
+            checkSt.close();
 
-        PreparedStatement st = con.prepareStatement(sql);
+            PreparedStatement st;
 
-        st.setInt(1, test.getPoint());
-        st.setString(2, test.getClassNum());
-        st.setString(3, test.getStudent().getNo());
-        st.setString(4, test.getSubject().getCd());
-        st.setString(5, test.getSchool().getCd());
-        st.setInt(6, test.getNo());
+            if (exists) {
 
-        int count = st.executeUpdate();
+                // UPDATE
+                String updateSql =
+                    "UPDATE test SET point = ? " +
+                    "WHERE student_no = ? " +
+                    "AND subject_cd = ? " +
+                    "AND no = ?";
 
-        st.close();
-        con.close();
+                st = con.prepareStatement(updateSql);
 
-        return count > 0;
-    }
+                st.setInt(1, test.getPoint());
+                st.setString(2, test.getStudent().getNo());
+                st.setString(3, test.getSubject().getCd());
+                st.setInt(4, test.getNo());
 
-    /**
-     * 成績削除
-     */
-    public boolean delete(Test test) throws Exception {
+            } else {
 
-        Connection con = getConnection();
+                // INSERT
+                String insertSql =
+                    "INSERT INTO test(" +
+                    "student_no, subject_cd, school_cd, class_num, no, point" +
+                    ") VALUES (?, ?, ?, ?, ?, ?)";
 
-        String sql =
-            "DELETE FROM test " +
-            "WHERE student_no = ? " +
-            "AND subject_cd = ? " +
-            "AND school_cd = ? " +
-            "AND no = ?";
+                st = con.prepareStatement(insertSql);
 
-        PreparedStatement st = con.prepareStatement(sql);
+                st.setString(1, test.getStudent().getNo());
+                st.setString(2, test.getSubject().getCd());
+                st.setString(3, test.getSchool().getCd());
+                st.setString(4, test.getClassNum());
+                st.setInt(5, test.getNo());
+                st.setInt(6, test.getPoint());
+            }
 
-        st.setString(1, test.getStudent().getNo());
-        st.setString(2, test.getSubject().getCd());
-        st.setString(3, test.getSchool().getCd());
-        st.setInt(4, test.getNo());
+            count += st.executeUpdate();
 
-        int count = st.executeUpdate();
+            st.close();
+        }
 
-        st.close();
         con.close();
 
         return count > 0;
