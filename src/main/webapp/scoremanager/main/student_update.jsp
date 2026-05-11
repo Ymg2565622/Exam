@@ -9,7 +9,7 @@
 	<c:param name="scripts"></c:param>
 	
 	<c:param name="content">
-		<h2 class="h3 mb-3 bg-secondary bg-opacity-10 py-2 px-4">学生情報登録</h2>
+		<h2 class="h3 mb-3 bg-secondary bg-opacity-10 py-2 px-4">学生情報変更</h2>
 		<form action="StudentUpdateExecute.action" method="post">
 			<label class="form-label" for="student-ent-year-input">入学年度</label>
 			<input class="form-control mb-3 border-0" id="student-ent-year-input"type="text" name="ent_year" value="${ent_year}" readonly>
