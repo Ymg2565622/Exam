@@ -27,7 +27,7 @@
 			<input class="form-control mb-2" id="teacher-newPassword-input" type="password" name="newPassword" 
 				placeholder="新しいパスワードを入力してください" maxlength="30">
 			<div class="text-warning">${errors.get("confirmPassword")}</div>
-			<label class="form-label mt-2" for="teacher-confirmPassword-input">新しい確認用パスワード</label>
+			<label class="form-label mt-2" for="teacher-confirmPassword-input">確認用パスワード</label>
 			<input class="form-control mb-2" id="teacher-confirmPassword-input" type="password" name="confirmPassword" 
 				placeholder="同じパスワードを入力してください" maxlength="30">
 			<input class="btn btn-primary mb-3" id="login-button" type="submit" value="変更">
