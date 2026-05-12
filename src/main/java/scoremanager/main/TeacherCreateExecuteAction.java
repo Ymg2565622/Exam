@@ -40,7 +40,7 @@ public class TeacherCreateExecuteAction extends Action {
 		// ID重複チェック
 		TeacherDao teacherDao = new TeacherDao();
 		if (teacherDao.get(id) != null) {
-		    errors.put("id", "ユーザーIDが重複しています");
+		    errors.put("id", "IDが重複しています");
 		}
 
 		// エラーなしなら登録
