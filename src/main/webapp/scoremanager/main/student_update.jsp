@@ -16,7 +16,7 @@
 			<label class="form-label" for="student-no-input">学生番号</label>
 			<input class="form-control mb-3 border-0" id="student-no-input"type="text" name="no" value="${no}" readonly>
 			<label class="form-label" for="student-name-input">氏名</label>
-			<input class="form-control mb-3" id="student-name-input" type="text" name="name" value="${name}" required>
+			<input class="form-control mb-3" id="student-name-input" type="text" name="name" value="${name}" maxlength="30" required>
 			<label class="form-label" for="student-class-num-select">クラス</label>
 			<select class="form-select mb-3" id="student-class-num-select" name="class_num">
 				<c:forEach var="num" items="${class_num_set}">
