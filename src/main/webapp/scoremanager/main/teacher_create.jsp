@@ -13,7 +13,7 @@
 		<form action="TeacherCreateExecute.action" method="post">
 			<label class="form-label mt-2" for="teacher-id-input">ID</label>
 			<input class="form-control mb-2" id="teacher-id-input" type="text" name="id" value="${id}" 
-				placeholder="ユーザーIDを入力してください" required>
+				placeholder="IDを入力してください" required>
 			<div class="text-warning">${errors.get("id")}</div>
 			<label class="form-label mt-2" for="teacher-name-input">名前</label>
 			<input class="form-control mb-2" id="teacher-name-input" type="text" name="name" value="${name}" 
