@@ -11,7 +11,7 @@
 	<c:param name="content">
 		<h2 class="h3 mb-3 bg-secondary bg-opacity-10 py-2 px-4">ユーザー情報変更</h2>
 		<form action="TeacherUpdateExecute.action" method="post">
-			<label class="form-label" for="teacher-id-input">ユーザーID</label>
+			<label class="form-label" for="teacher-id-input">ID</label>
 			<input class="form-control mb-3 border-0" id="teacher-id-input"type="text" name="id" value="${id}" readonly>
 			<label class="form-label mt-2" for="teacher-name-input">名前(表示用)</label>
 			<input class="form-control mb-2" id="teacher-name-input" type="text" name="name" value="${name}" 

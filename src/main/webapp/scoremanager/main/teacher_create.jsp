@@ -11,7 +11,7 @@
 	<c:param name="content">
 		<h2 class="h3 mb-3 bg-secondary bg-opacity-10 py-2 px-4">ユーザー情報登録</h2>
 		<form action="TeacherCreateExecute.action" method="post">
-			<label class="form-label mt-2" for="teacher-id-input">ユーザーID</label>
+			<label class="form-label mt-2" for="teacher-id-input">ID</label>
 			<input class="form-control mb-2" id="teacher-id-input" type="text" name="id" value="${id}" 
 				placeholder="ユーザーIDを入力してください" required>
 			<div class="text-warning">${errors.get("id")}</div>
