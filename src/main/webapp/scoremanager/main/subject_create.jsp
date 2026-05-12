@@ -10,15 +10,54 @@
     <c:param name="scripts"></c:param>
 
     <c:param name="content">
-    <h2 class="h3 mb-3 bg-secondary bg-opacity-10 py-2 px-4">科目情報登録</h2>
-    <form action="SubjectCreateExecute.action" method="post">
-    <label class="form-label mt-2" for="subject-cd-input">科目コード</label>
-	<input class="form-control mb-2" id="subject-cd-input" type="text" name="no" value="${no}" 
-		placeholder="科目コードを入力してください" required>
-    <label class="form-label mt-2" for="subject-name-input">科目名</label>
-	<input class="form-control mb-2" id="subject-name-input" type="text" name="no" value="${no}" 
-		placeholder="科目名を入力してください" required>
-    
-    
-	</c:param>
+        <h2 class="h3 mb-3 bg-secondary bg-opacity-10 py-2 px-4">
+            科目情報登録
+        </h2>
+
+        <form action="/exam/scoremanager/main/SubjectCreateExecute.action"
+              method="post"
+              class="px-4">
+
+            <!-- 科目コード -->
+            <label for="subject-cd-input" class="form-label mt-2">
+                科目コード
+            </label>
+            <input
+                id="subject-cd-input"
+                type="text"
+                name="cd"
+                class="form-control"
+                value="${cd}"
+                maxlength="3"
+                required
+            >
+
+            <!-- ★ 科目コードの警告メッセージ -->
+            <div class="text-warning">
+                ${errors.cd}
+            </div>
+
+            <!-- 科目名 -->
+            <label for="subject-name-input" class="form-label mt-3">
+                科目名
+            </label>
+            <input
+                id="subject-name-input"
+                type="text"
+                name="name"
+                class="form-control"
+                value="${name}"
+                maxlength="20"
+                required
+            >
+
+            <!-- 登録ボタン -->
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">
+                    登録
+                </button>
+            </div>
+
+        </form>
+    </c:param>
 </c:import>

@@ -13,7 +13,7 @@
     <h2 class="h3 mb-3 bg-secondary bg-opacity-10 py-2 px-4">科目一覧</h2>
 
     <div class="text-end px-4">
-        <a href="/exam/scoremanager/main/subject_create.jsp">科目登録</a>
+        <a href="/exam/scoremanager/main/SubjectCreate.action">科目登録</a>
     </div>
    
 		<table class="table table-hover">
