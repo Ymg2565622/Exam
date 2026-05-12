@@ -13,7 +13,7 @@
 		<form action="ClassCreateExecute.action" method="post">
 			<label class="form-label mt-2" for="student-no-input">クラス番号</label>
 			<input class="form-control mb-2" id="student-no-input" type="text" name="class_num" value="${classNum}" 
-				placeholder="クラス番号を入力してください" required>
+				placeholder="クラス番号を入力してください" maxlength="5" required>
 			<div class="text-warning">${error}</div>
 			<button class="btn btn-secondary mt-2 mb-2" id="end-button" type="submit">登録して終了</button>
 		</form>

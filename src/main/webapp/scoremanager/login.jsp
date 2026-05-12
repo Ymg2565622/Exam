@@ -43,14 +43,14 @@
 				<div class="mb-3">
 				  <label for="id" class="form-label text-muted">Ⅰ　Ｄ</label>
 				  <input type="text" class="form-control" id="id" name="id"
-				    placeholder="半角でご入力下さい" style="ime-mode: disabled" value="${id}" required>
+				    placeholder="半角でご入力下さい" style="ime-mode: disabled" value="${id}" maxlength="10" required>
 				</div>
 				
 				<div class="mb-3">
 				  <label for="password" class="form-label text-muted">パスワード</label>
 				  <input type="password" class="form-control" id="password" name="password"
 				    placeholder="30文字以内の半角英数字でご入力下さい"
-				    style="ime-mode: disabled" autocomplete="off" required>
+				    style="ime-mode: disabled" autocomplete="off" maxlength="30" required>
 				</div>
 		
 				<div class="form-check mb-3 d-flex justify-content-center">
