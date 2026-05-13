@@ -36,6 +36,7 @@ public class ClassCreateExecuteAction extends Action {
 			classNumDao.save(classNum);
 		} else {
 			//既に登録されていればエラーを出して再表示
+			request.setAttribute("classNum", classNumStr);
 			request.setAttribute("error", "クラス番号が重複しています");
 			return "class_create.jsp";
 		}
