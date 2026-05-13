@@ -36,7 +36,7 @@ public class TestRegistAction extends Action {
         // 表示用の値をセット
         request.setAttribute("subjects", subjects);
 
-        // 科目登録画面へ遷移
+        // 成績一覧画面へ遷移
         return "test_regist.jsp";
     }
 }
