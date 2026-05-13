@@ -30,6 +30,7 @@ public class ClassUpdateExecuteAction extends Action {
 		
 		//同じ番号ならエラーを出す
 		if (classNumStr.equals(newClassNumStr)) {
+			request.setAttribute("classNum", newClassNumStr);
 			request.setAttribute("error", "変更前と同じ番号です");
 			return "class_update.jsp";
 		}
@@ -47,6 +48,7 @@ public class ClassUpdateExecuteAction extends Action {
 			classNumDao.save(classNum, newClassNumStr);
 		} else {
 			//既に登録されていればエラーを出して再表示
+			request.setAttribute("classNum", newClassNumStr);
 			request.setAttribute("error", "クラス番号が重複しています");
 			return "class_update.jsp";
 		}
