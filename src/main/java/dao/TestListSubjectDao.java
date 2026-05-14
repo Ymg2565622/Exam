@@ -52,7 +52,7 @@ public class TestListSubjectDao extends Dao{
 						"t.student_no, " +
 						"s.name as  student_name, " +
 						"t.no as test_no, " +
-						"t.point as point" +
+						"t.point as point " +
 						"from test t " +
 						"join student s " +
 						"on t.student_no = s.no " +
@@ -92,7 +92,7 @@ public class TestListSubjectDao extends Dao{
 					}
 					
 					//テスト回数と点数をMapへ入れる
-					int testNo = rs.getInt("no");
+					int testNo = rs.getInt("test_no");
 					int point = rs.getInt("point");
 					
 					bean.putPoint(testNo, point);
