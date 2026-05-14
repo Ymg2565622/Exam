@@ -9,14 +9,15 @@
 	<c:param name="scripts"></c:param>
 	
 	<c:param name="content">
-		<h2 class="h3 mb-3 bg-secondary bg-opacity-10 py-2 px-4">学生情報登録</h2>
+		<h2 class="h3 mb-3 bg-secondary bg-opacity-10 py-2 px-4">学生情報変更</h2>
 		<form action="StudentUpdateExecute.action" method="post">
 			<label class="form-label" for="student-ent-year-input">入学年度</label>
 			<input class="form-control mb-3 border-0" id="student-ent-year-input"type="text" name="ent_year" value="${ent_year}" readonly>
 			<label class="form-label" for="student-no-input">学生番号</label>
 			<input class="form-control mb-3 border-0" id="student-no-input"type="text" name="no" value="${no}" readonly>
 			<label class="form-label" for="student-name-input">氏名</label>
-			<input class="form-control mb-3" id="student-name-input" type="text" name="name" value="${name}" required>
+			<input class="form-control mb-3" id="student-name-input" type="text" name="name" value="${name}" maxlength="10" required>
+			<%-- 画面設計書では最大文字数が30に指定されているが、テーブル設計書がvarchar(10)のためそちらに合わせる --%>
 			<label class="form-label" for="student-class-num-select">クラス</label>
 			<select class="form-select mb-3" id="student-class-num-select" name="class_num">
 				<c:forEach var="num" items="${class_num_set}">

@@ -112,17 +112,115 @@ public class ClassNumDao extends Dao {
 	}
 	
 	/**
-	 * クラス図に記述があるが、クラス管理については実装しないため未実装
+	 * クラス番号インスタンスを元にclass_numテーブルに新規登録する
+	 * 
+	 * @param classNum
+	 * @return
+	 * @throws Exception
 	 */
 	public boolean save(ClassNum classNum) throws Exception {
-		return false;
+		//DB処理に必要なリソースの確立
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+		//実行回数 
+		int count = 0;
 		
+		try {
+			statement = connection.prepareStatement("""
+					insert into class_num (
+						school_cd,
+						class_num) 
+					values(
+						?,
+						?)
+					""");
+			statement.setString(1, classNum.getSchool().getCd());
+			statement.setString(2, classNum.getClass_num());
+			count = statement.executeUpdate();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			//使用したリソース（PreparedStatemnt, Connection）を安全に閉じる
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+		}
+
+		if (count > 0) {
+			//実行回数が1件以上
+			return true;
+		} else {
+			//実行回数が0件
+			return false;
+		}
 	}
 	
 	/**
-	 * クラス図に記述があるが、クラス管理については実装しないため未実装
+	 * クラス番号インスタンスから、class_numテーブルの該当データのクラス番号を新しいクラス番号に更新する
+	 * 
+	 * @param classNum
+	 * @param newClassNum
+	 * @return
+	 * @throws Exception
 	 */
 	public boolean save(ClassNum classNum, String newClassNum) throws Exception {
-		return false;	
+		//DB処理に必要なリソースの確立
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
+		//実行回数 
+		int count = 0;
+		
+		try {
+			statement = connection.prepareStatement("""
+					update 
+						class_num 
+					set 
+						class_num=?
+					where 
+						school_cd=? and 
+						class_num=?
+					""");
+			statement.setString(1, newClassNum);
+			statement.setString(2, classNum.getSchool().getCd());
+			statement.setString(3, classNum.getClass_num());
+			count = statement.executeUpdate();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			//使用したリソース（PreparedStatemnt, Connection）を安全に閉じる
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException sqle) {
+					throw sqle;
+				}
+			}
+		}
+
+		if (count > 0) {
+			//実行回数が1件以上
+			return true;
+		} else {
+			//実行回数が0件
+			return false;
+		}
 	}
 }
