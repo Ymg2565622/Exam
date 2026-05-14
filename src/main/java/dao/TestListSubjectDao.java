@@ -41,9 +41,8 @@ public class TestListSubjectDao extends Dao{
 		List<TestListSubject> list = new ArrayList<>();
 		
 		//DB処理に必要なリソースの確立
-		Connection connection1 = getConnection();
-		PreparedStatement statement1 = null;
-		ResultSet resultSet = null;
+		Connection connection = getConnection();
+		PreparedStatement statement = null;
 		
 		//SQL文の設定用
 		String condition = ("select " +
@@ -62,11 +61,8 @@ public class TestListSubjectDao extends Dao{
 						"and t.subject_cd = ? ");
 		String order = (" order by t.student_no asc");
 
-		try (
-				Connection connection = getConnection();
-				PreparedStatement statement = connection.prepareStatement(condition + order);
-				
-				){
+		try{
+			statement = connection.prepareStatement(condition + order);
 			statement.setString(1, school.getCd());
 			statement.setInt(2, entYear);
 			statement.setString(3, classNum);
@@ -103,16 +99,16 @@ public class TestListSubjectDao extends Dao{
 			throw e;
 		} finally {
 			//使用したリソース（PreparedStatemnt1, Connection1）を安全に閉じる
-			if (statement1 != null) {
+			if (statement != null) {
 				try {
-					statement1.close();
+					statement.close();
 				} catch (SQLException sqle) {
 					throw sqle;
 				}
 			}
-			if (connection1 != null) {
+			if (connection != null) {
 				try {
-					connection1.close();
+					connection.close();
 				} catch (SQLException sqle) {
 					throw sqle;
 				}
