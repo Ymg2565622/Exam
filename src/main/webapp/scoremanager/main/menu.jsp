@@ -20,7 +20,7 @@
 				<div>
 					<div class="">成績管理</div>
 					<div class="">
-						<a href="${pageContext.request.contextPath}/scoremanager/main/TestResist.action">成績登録</a>
+						<a href="${pageContext.request.contextPath}/scoremanager/main/TestRegist.action">成績登録</a>
 					</div>
 					<div class="">
 						<a href="${pageContext.request.contextPath}/scoremanager/main/TestList.action">成績参照</a>

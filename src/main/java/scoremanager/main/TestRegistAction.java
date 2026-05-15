@@ -14,7 +14,7 @@ import tool.Action;
  * 科目一覧を表示するアクション。
  * 各ページからの遷移によって実行され、科目一覧を表示する
  */
-public class SubjectCreateAction extends Action {
+public class TestRegistAction extends Action {
 
     @Override
     public String execute(
@@ -36,7 +36,7 @@ public class SubjectCreateAction extends Action {
         // 表示用の値をセット
         request.setAttribute("subjects", subjects);
 
-        // 科目登録画面へ遷移
-        return "subject_create.jsp";
+        // 成績一覧画面へ遷移
+        return "test_regist.jsp";
     }
 }

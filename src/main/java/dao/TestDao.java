@@ -26,13 +26,15 @@ public class TestDao extends Dao {
             "SELECT * FROM test " +
             "WHERE student_no = ? " +
             "AND subject_cd = ? " +
+            "AND school_cd = ? " +
             "AND no = ?";
 
         PreparedStatement st = con.prepareStatement(sql);
 
         st.setString(1, student.getNo());
         st.setString(2, subject.getCd());
-        st.setInt(3, no);
+        st.setString(3, school.getCd());
+        st.setInt(4, no);
 
         ResultSet rs = st.executeQuery();
 
@@ -131,13 +133,15 @@ public class TestDao extends Dao {
                 "SELECT COUNT(*) FROM test " +
                 "WHERE student_no = ? " +
                 "AND subject_cd = ? " +
-                "AND no = ?";
+                "AND no = ?" +
+                "AND school_cd = ?";
 
             PreparedStatement checkSt = con.prepareStatement(checkSql);
 
             checkSt.setString(1, test.getStudent().getNo());
             checkSt.setString(2, test.getSubject().getCd());
             checkSt.setInt(3, test.getNo());
+            checkSt.setString(4, test.getSchool().getCd());
 
             ResultSet rs = checkSt.executeQuery();
 
@@ -156,7 +160,9 @@ public class TestDao extends Dao {
                     "UPDATE test SET point = ? " +
                     "WHERE student_no = ? " +
                     "AND subject_cd = ? " +
-                    "AND no = ?";
+                    "AND no = ?" + 
+                    "AND school_cd = ?";
+                	
 
                 st = con.prepareStatement(updateSql);
 
@@ -164,6 +170,7 @@ public class TestDao extends Dao {
                 st.setString(2, test.getStudent().getNo());
                 st.setString(3, test.getSubject().getCd());
                 st.setInt(4, test.getNo());
+                st.setString(5, test.getSchool().getCd());
 
             } else {
 
