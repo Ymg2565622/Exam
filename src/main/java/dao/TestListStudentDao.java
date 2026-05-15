@@ -28,9 +28,6 @@ public class TestListStudentDao extends Dao {
 public List<TestListStudent> filter(Student student) throws Exception {
 	List<TestListStudent> list = new ArrayList<>();
 	
-	Connection connection = getConnection();
-	PreparedStatement statement = null;
-	ResultSet resultSet = null;
 	
 	try (Connection con = getConnection();
             PreparedStatement ps = con.prepareStatement(sql)) {
