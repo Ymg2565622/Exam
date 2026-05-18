@@ -114,4 +114,22 @@ public class SubjectDao extends Dao {
 		}
 		return count > 0;
 	}
+	
+	public boolean existsByName(String name, School school) throws Exception {
+	    String sql = "SELECT COUNT(*) FROM subject WHERE name = ? AND school_cd = ?";
+	    
+	    try (Connection connection = getConnection();
+	         PreparedStatement statement = connection.prepareStatement(sql)) {
+
+	        statement.setString(1, name);
+	        statement.setString(2, school.getCd());
+
+	        try (ResultSet rs = statement.executeQuery()) {
+	            if (rs.next()) {
+	                return rs.getInt(1) > 0;
+	            }
+	        }
+	    }
+	    return false;
+	}
 }
