@@ -10,7 +10,7 @@
     <c:param name="content">
 
         <h2 class="h3 mb-3 bg-secondary bg-opacity-10 py-2 px-4">
-            成績参照
+           科目別成績一覧
         </h2>
 
         <!-- ===== フォーム ===== -->
