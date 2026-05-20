@@ -1,5 +1,8 @@
 package scoremanager.main;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import bean.School;
 import bean.Subject;
 import bean.Teacher;
@@ -15,39 +18,54 @@ public class SubjectUpdateExecuteAction extends Action {
             HttpServletRequest request, HttpServletResponse response
     ) throws Exception {
 
-        // パラメータ取得
         String cd = request.getParameter("cd");
         String name = request.getParameter("name");
 
-        // 学校情報を取得
         Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
         School school = teacher.getSchool();
 
         SubjectDao dao = new SubjectDao();
 
-        // 現在の科目情報を取得
+        Map<String, String> errors = new HashMap<>();
+
+        // ★ 科目が存在するかチェック（他から削除された場合）
         Subject current = dao.get(cd, school);
-
-        //  同名科目が存在するかチェック（ただし自分自身は除外）
-        if (!current.getName().equals(name) && dao.existsByName(name, school)) {
-
-            request.setAttribute("error", "同じ名前の科目が既に登録されています。");
-            request.setAttribute("cd", cd);
-            request.setAttribute("name", name);
-
-            return "subject_update.jsp";  // 入力画面に戻す
+        if (current == null) {
+            errors.put("notfound", "科目が存在していません。");
+            request.setAttribute("errors", errors);
+            return "subject_update.jsp";
         }
 
-        // 更新する Subject を作成
+        //以下二つのチェックは仕様書では定義されていないので注意
+//        // 科目名未入力
+//        if (name == null || name.trim().isEmpty()) {
+//            errors.put("name", "科目名を入力してください。");
+//        }
+//
+//        // 同名科目チェック（自分以外）
+//        List<Subject> subjects = dao.filter(school);
+//        for (Subject s : subjects) {
+//            if (!s.getCd().equals(cd) && s.getName().equals(name)) {
+//                errors.put("name", "同じ名前の科目が既に登録されています。");
+//                break;
+//            }
+//        }
+
+        if (!errors.isEmpty()) {
+            request.setAttribute("errors", errors);
+            request.setAttribute("cd", cd);
+            request.setAttribute("name", name);
+            return "subject_update.jsp";
+        }
+
+        // 更新処理
         Subject subject = new Subject();
         subject.setCd(cd);
         subject.setName(name);
         subject.setSchool(school);
 
-        // 保存（更新）
         dao.save(subject);
 
-        // 完了画面へ
         return "subject_update_done.jsp";
     }
 }

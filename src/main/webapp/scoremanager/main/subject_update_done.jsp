@@ -10,9 +10,20 @@
     <c:param name="scripts"></c:param>
 
     <c:param name="content">
-<h2>科目情報を更新しました</h2>
 
-<p><a href="SubjectList.action">科目一覧へ戻る</a></p>
+        <h2 class="h3 mb-3 bg-secondary bg-opacity-10 py-2 px-4">科目情報変更</h2>
 
-</c:param>
+        <p class="mb-5 fw-normal bg-success bg-opacity-50 py-1 px-4 text-center">
+            変更が完了しました
+        </p>
+
+        <a class="d-inline-block mt-5"
+           href="${pageContext.request.contextPath}/scoremanager/main/SubjectList.action">
+            科目一覧
+        </a>
+
+    </c:param>
 </c:import>
+
+
+
