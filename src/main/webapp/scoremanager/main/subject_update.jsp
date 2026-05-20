@@ -11,33 +11,36 @@
 
     <c:param name="content">
 
-<h2>科目情報変更</h2>
+        <h2 class="h3 mb-3 bg-secondary bg-opacity-10 py-2 px-4">科目情報変更</h2>
 
-<!--  エラーメッセージ表示 -->
-<c:if test="${not empty error}">
-    <p style="color:red;">${error}</p>
-</c:if>
+        <form action="SubjectUpdateExecute.action" method="post">
 
-<form action="SubjectUpdateExecute.action" method="post">
+            <!-- 科目コード -->
+            <div class="mb-3">
+                <label class="form-label">科目コード</label>
+                <input type="text" class="form-control-plaintext" name="cd" value="${cd}" readonly>
 
-    <!-- 科目コード（変更不可） -->
-    <p>
-        <label>科目コード：</label>
-        <input type="text" name="cd" value="${cd}" readonly>
-    </p>
+                <c:if test="${not empty errors.cd}">
+                    <div class="text-warning">${errors.cd}</div>
+                </c:if>
+            </div>
 
-    <!-- 科目名（変更可能） -->
-    <p>
-        <label>科目名：</label>
-        <input type="text" name="name" value="${name}">
-    </p>
+            <!-- 科目名 -->
+            <div class="mb-3">
+                <label class="form-label">科目名</label>
+                <input type="text" class="form-control" name="name" value="${name}"
+                       placeholder="科目名を入力してください" required>
 
-    <p>
-        <input type="submit" value="更新">
-        <input type="button" value="戻る" onclick="history.back()">
-    </p>
+                <c:if test="${not empty errors.name}">
+                    <div class="text-warning">${errors.name}</div>
+                </c:if>
+            </div>
 
-</form>
+            <input class="btn btn-primary mb-3" type="submit" value="変更">
+
+        </form>
+
+        <a href="${pageContext.request.contextPath}/scoremanager/main/SubjectList.action">戻る</a>
 
     </c:param>
 </c:import>
