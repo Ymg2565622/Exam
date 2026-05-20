@@ -7,6 +7,7 @@ import bean.Teacher;
 import dao.TeacherDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
 /**
@@ -40,6 +41,12 @@ public class TeacherUpdateExecuteAction extends Action {
 			teacher.setName(name);
 			teacherDao.save(teacher);
 			
+			//もし、更新したユーザーが現在ログインしているユーザーの場合、セッションのユーザーを置き換える
+			HttpSession session = request.getSession();
+			Teacher loginTeacher = (Teacher)session.getAttribute("teacher");
+			if (loginTeacher.getId().equals(id)) {
+				session.setAttribute("teacher", teacher);
+			}
 			return "teacher_update_done.jsp";
 		} else {
 			//パスワード変更含む。パスワード確認必要
@@ -60,6 +67,13 @@ public class TeacherUpdateExecuteAction extends Action {
 				teacher.setName(name);
 				teacher.setPassword(newPassword);
 				teacherDao.save(teacher);
+				
+				//もし、更新したユーザーが現在ログインしているユーザーの場合、セッションのユーザーを置き換える
+				HttpSession session = request.getSession();
+				Teacher loginTeacher = (Teacher)session.getAttribute("teacher");
+				if (loginTeacher.getId().equals(id)) {
+					session.setAttribute("teacher", teacher);
+				}
 				return "teacher_update_done.jsp";
 			}
 			

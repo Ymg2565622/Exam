@@ -1,5 +1,6 @@
 package bean;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class TestListSubject implements java.io.Serializable {
@@ -8,7 +9,7 @@ public class TestListSubject implements java.io.Serializable {
 	private String studentNo;
 	private String studentName;
 	private String classNum;
-	private Map<Integer, Integer> points;
+	private Map<Integer, Integer> points = new HashMap<>();
 	
 	public int getEntYear() {
 		return entYear;
