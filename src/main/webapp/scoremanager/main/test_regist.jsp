@@ -10,15 +10,19 @@
     <c:param name="scripts"></c:param>
 
     <c:param name="content">
+
+        <!-- ================== 検索部分 ================== -->
         <h2 class="h3 mb-3 bg-secondary bg-opacity-10 py-2 px-4">成績管理</h2>
 
+        <!-- 🔍 検索フォーム -->
         <form method="get">
-            <div class="row border mx-3 mb-3 py-2 align-items-center rounded" id="filter">
+
+            <div class="row border mx-3 mb-3 py-2 align-items-center rounded">
 
                 <!-- 入学年度 -->
                 <div class="col-2">
-                    <label class="form-label" for="f1-select">入学年度</label>
-                    <select class="form-select" id="f1-select" name="f1">
+                    <label class="form-label">入学年度</label>
+                    <select class="form-select" name="f1">
                         <option value="0">--------</option>
                         <c:forEach var="year" items="${ent_year_set}">
                             <option value="${year}"
@@ -31,8 +35,8 @@
 
                 <!-- クラス -->
                 <div class="col-2">
-                    <label class="form-label" for="f2-select">クラス</label>
-                    <select class="form-select" id="f2-select" name="f2">
+                    <label class="form-label">クラス</label>
+                    <select class="form-select" name="f2">
                         <option value="0">--------</option>
                         <c:forEach var="num" items="${class_num_set}">
                             <option value="${num}"
@@ -45,8 +49,8 @@
 
                 <!-- 科目 -->
                 <div class="col-4">
-                    <label class="form-label" for="f3-select">科目</label>
-                    <select class="form-select" id="f3-select" name="f3">
+                    <label class="form-label">科目</label>
+                    <select class="form-select" name="f3">
                         <option value="0">--------</option>
                         <c:forEach var="subject" items="${subject_set}">
                             <option value="${subject.cd}"
@@ -59,8 +63,8 @@
 
                 <!-- 回数 -->
                 <div class="col-2">
-                    <label class="form-label" for="f4-select">回数</label>
-                    <select class="form-select" id="f4-select" name="f4">
+                    <label class="form-label">回数</label>
+                    <select class="form-select" name="f4">
                         <option value="0">--------</option>
                         <c:forEach var="no" items="${no_set}">
                             <option value="${no}"
@@ -70,13 +74,76 @@
                         </c:forEach>
                     </select>
                 </div>
-                
-                <!-- 検索ボタンを配置 -->
+
+                <!-- 検索 -->
                 <div class="col-2 text-center">
-                	<button class="btn btn-secondary" id="filter-button">絞込</button>
+                    <button type="submit" class="btn btn-secondary">
+                        検索
+                    </button>
                 </div>
-                <div class="mt-2 text-warning">${errors.get("f1")}</div>
+
             </div>
         </form>
+
+        <!-- ================== 検索結果 ================== -->
+        <c:if test="${not empty student_list}">
+
+            <!-- 科目表示 -->
+            <div class="mx-3 mb-2">
+                科目：${f3_name}（${param.f4}回）
+            </div>
+
+            <!-- ✅ 成績登録フォーム -->
+            <form method="post" action="TestRegistExecute.action">
+
+                <table class="table table-bordered mx-3">
+                    <tr>
+                        <th>入学年度</th>
+                        <th>クラス</th>
+                        <th>学生番号</th>
+                        <th>氏名</th>
+                        <th>点数</th>
+                    </tr>
+
+                    <c:forEach var="student" items="${student_list}">
+                        <tr>
+                            <td>${student.entYear}</td>
+                            <td>${student.classNum}</td>
+                            <td>${student.no}</td>
+                            <td>${student.name}</td>
+
+                            <td>
+                                <!-- 点数入力 -->
+                                <input type="number"
+                                       name="point_${student.no}"
+                                       min="0" max="100"
+                                       class="form-control"
+                                       style="width:90px;">
+
+                                <!-- 🔥 超重要（これがエラー原因だった） -->
+                                <input type="hidden"
+                                       name="regist"
+                                       value="${student.no}">
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+
+                <!-- 条件保持 -->
+                <input type="hidden" name="f1" value="${param.f1}">
+                <input type="hidden" name="f2" value="${param.f2}">
+                <input type="hidden" name="f3" value="${param.f3}">
+                <input type="hidden" name="f4" value="${param.f4}">
+
+                <div class="mx-3">
+                    <button type="submit" class="btn btn-secondary">
+                        登録して終了
+                    </button>
+                </div>
+
+            </form>
+
+        </c:if>
+
     </c:param>
 </c:import>
