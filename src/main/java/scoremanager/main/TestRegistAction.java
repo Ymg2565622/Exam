@@ -1,84 +1,98 @@
 package scoremanager.main;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
+import bean.Student;
+import bean.Subject;
+import bean.Teacher;
+import bean.Test;
+import dao.ClassNumDao;
+import dao.StudentDao;
+import dao.SubjectDao;
+import dao.TestDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import tool.Action;
 
-@WebServlet("/TestRegistAction")
-public class TestRegistAction extends HttpServlet {
+public class TestRegistAction extends Action {
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    @Override
+    public String execute(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws Exception {
 
-        request.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession();
+        Teacher teacher = (Teacher) session.getAttribute("teacher");
 
-        //学生ID（複数）
-        String[] studentIds = request.getParameterValues("studentId");
+        // ✅ パラメータ
+        String f1 = request.getParameter("f1");
+        String f2 = request.getParameter("f2");
+        String f3 = request.getParameter("f3");
+        String f4 = request.getParameter("f4");
 
-        //共通項目
-        String subjectId = request.getParameter("subjectId");
-        String count = request.getParameter("count");
+        // ✅ DAO
+        SubjectDao sDao = new SubjectDao();
+        StudentDao studentDao = new StudentDao();
+        ClassNumDao cNumDao = new ClassNumDao();
+        TestDao tDao = new TestDao();
 
-        String errorMessage = null;
+        // ✅ プルダウン
+        request.setAttribute("subject_set", sDao.filter(teacher.getSchool()));
+        request.setAttribute("ent_year_set", studentDao.getEntYears(teacher.getSchool()));
+        request.setAttribute("class_num_set", cNumDao.filter(teacher.getSchool()));
 
-        try {
+        List<Integer> noSet = new ArrayList<>();
+        for (int i = 1; i <= 5; i++) noSet.add(i);
+        request.setAttribute("no_set", noSet);
 
-            //学生ごとにループ（設計書ポイント）
-            for (String studentId : studentIds) {
+        // ✅ 条件一致
+        if (f1 != null && f2 != null && f3 != null && f4 != null &&
+            !f1.equals("0") && !f2.equals("0") &&
+            !f3.equals("0") && !f4.equals("0")) {
 
-                String scoreStr = request.getParameter("point_" + studentId);
-
-                //空欄は登録しない
-                if (scoreStr == null || scoreStr.isEmpty()) {
-                    continue;
-                }
-
-                int score;
-
-                try {
-                    score = Integer.parseInt(scoreStr);
-                } catch (NumberFormatException e) {
-                    errorMessage = "点数は数値で入力してください";
-                    break;
-                }
-
-                //0～100チェック
-                if (score < 0 || score > 100) {
-                    errorMessage = "点数は0～100で入力してください";
-                    break;
-                }
-
-                //DB登録（仮）
-                System.out.println(
-                    "学生ID:" + studentId +
-                    " 科目ID:" + subjectId +
-                    " 回数:" + count +
-                    " 点数:" + score
+            // ✅ 学生
+            List<Student> studentList =
+                studentDao.filter(
+                    teacher.getSchool(),
+                    Integer.parseInt(f1),
+                    f2,
+                    true
                 );
 
-                // TODO: DAOでDB登録
-                // TestDAO dao = new TestDAO();
-                // dao.insert(studentId, subjectId, count, score);
+            request.setAttribute("student_list", studentList);
+
+            // ✅ ✅ ✅ デフォルト値（重要部分）
+            Map<String, Integer> pointMap = new HashMap<>();
+
+            Subject subject = new Subject();
+            subject.setCd(f3);
+
+            List<Test> testList = tDao.filter(
+                teacher.getSchool(),
+                f2,
+                subject,
+                Integer.parseInt(f4)
+            );
+
+            for (Test t : testList) {
+                if (t.getStudent() != null) {
+                    pointMap.put(
+                        t.getStudent().getNo(),
+                        t.getPoint()
+                    );
+                }
             }
 
-        } catch (Exception e) {
-            errorMessage = "処理中にエラーが発生しました";
+            request.setAttribute("point_map", pointMap);
+
+            return "test_regist.jsp";
         }
 
-        //エラー処理
-        if (errorMessage != null) {
-            request.setAttribute("error", errorMessage);
-            request.getRequestDispatcher("/scoremanager/main/test_regist.jsp")
-                   .forward(request, response);
-            return;
-        }
-
-        //成功 → 完了画面へ
-        request.getRequestDispatcher("/scoremanager/main/test_regist_done.jsp")
-               .forward(request, response);
+        return "test_regist.jsp";
     }
 }

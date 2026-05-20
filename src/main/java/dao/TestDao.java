@@ -16,7 +16,7 @@ public class TestDao extends Dao {
     /**
      * 成績1件取得
      */
-	 public Test get(Student student, Subject subject, School school, int no) throws Exception {
+    public Test get(Student student, Subject subject, School school, int no) throws Exception {
 
         Test test = null;
 
@@ -26,13 +26,15 @@ public class TestDao extends Dao {
             "SELECT * FROM test " +
             "WHERE student_no = ? " +
             "AND subject_cd = ? " +
-            "AND no = ?";
+            "AND no = ? " +
+            "AND school_cd = ?"; // ✅ 修正
 
         PreparedStatement st = con.prepareStatement(sql);
 
         st.setString(1, student.getNo());
         st.setString(2, subject.getCd());
         st.setInt(3, no);
+        st.setString(4, school.getCd()); // ✅ 修正
 
         ResultSet rs = st.executeQuery();
 
@@ -56,9 +58,6 @@ public class TestDao extends Dao {
 
     /**
      * 成績一覧取得
-     * 
-     * ※ filterについてはクラス図・シーケンス図に矛盾があるため、
-     * 現在は既存仕様に合わせて実装
      */
     public List<Test> filter(School school, String classNum, Subject subject, int no)
             throws Exception {
@@ -111,14 +110,13 @@ public class TestDao extends Dao {
     }
 
     /**
-     * 成績登録・更新
-     * 
-     * List<Test> をまとめて保存
-     * 
-     * 既存データがあれば UPDATE
-     * 無ければ INSERT
+     * 成績保存（INSERT / UPDATE）
      */
     public boolean save(List<Test> list) throws Exception {
+
+        if (list == null || list.isEmpty()) {
+            return false; // ✅ 安全対策
+        }
 
         Connection con = getConnection();
 
@@ -126,21 +124,22 @@ public class TestDao extends Dao {
 
         for (Test test : list) {
 
-            // 既存データ確認
+            // ✅ 修正①：school_cd追加
             String checkSql =
                 "SELECT COUNT(*) FROM test " +
                 "WHERE student_no = ? " +
                 "AND subject_cd = ? " +
-                "AND no = ?";
+                "AND no = ? " +
+                "AND school_cd = ?";
 
             PreparedStatement checkSt = con.prepareStatement(checkSql);
 
             checkSt.setString(1, test.getStudent().getNo());
             checkSt.setString(2, test.getSubject().getCd());
             checkSt.setInt(3, test.getNo());
+            checkSt.setString(4, test.getSchool().getCd()); // ✅ 追加
 
             ResultSet rs = checkSt.executeQuery();
-
             rs.next();
 
             boolean exists = rs.getInt(1) > 0;
@@ -151,12 +150,13 @@ public class TestDao extends Dao {
 
             if (exists) {
 
-                // UPDATE
+                // ✅ 修正②：UPDATEにもschool_cd追加
                 String updateSql =
                     "UPDATE test SET point = ? " +
                     "WHERE student_no = ? " +
                     "AND subject_cd = ? " +
-                    "AND no = ?";
+                    "AND no = ? " +
+                    "AND school_cd = ?";
 
                 st = con.prepareStatement(updateSql);
 
@@ -164,10 +164,11 @@ public class TestDao extends Dao {
                 st.setString(2, test.getStudent().getNo());
                 st.setString(3, test.getSubject().getCd());
                 st.setInt(4, test.getNo());
+                st.setString(5, test.getSchool().getCd()); // ✅ 追加
 
             } else {
 
-                // INSERT
+                // ✅ INSERT（ここは元からOK）
                 String insertSql =
                     "INSERT INTO test(" +
                     "student_no, subject_cd, school_cd, class_num, no, point" +
