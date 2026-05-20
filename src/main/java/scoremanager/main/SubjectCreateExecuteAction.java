@@ -48,6 +48,18 @@ public class SubjectCreateExecuteAction extends Action {
                 errors.put("cd", "科目コードが重複しています");
             }
         }
+        // 半角英数字チェック
+        if (!errors.containsKey("cd")) {
+            if (!cd.matches("[A-Za-z0-9]{3}")) {
+                errors.put("cd", "科目コードは半角英数字3文字で入力してください");
+            }
+        }
+        // 科目名の重複チェック
+        if (name == null || name.isEmpty()) {
+            errors.put("name", "科目名を入力してください");
+        } else if (sDao.existsByName(name, teacher.getSchool())) {
+            errors.put("name", "同じ科目名が既に登録されています");
+        }
 
         // ===== エラーがある場合 =====
         if (!errors.isEmpty()) {
