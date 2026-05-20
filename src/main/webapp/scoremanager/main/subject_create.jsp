@@ -30,11 +30,9 @@
                 value="${cd}"
                 maxlength="3"
                 required
-                pattern="[A-Za-z0-9]+"
-    			title="半角英数字のみ入力できます"
             >
 
-            <!--  科目コードの警告メッセージ -->
+            <!-- ★ 科目コードの警告メッセージ -->
             <div class="text-warning">
                 ${errors.cd}
             </div>
@@ -52,12 +50,7 @@
                 maxlength="20"
                 required
             >
-			
-			<!--  科目コードの警告メッセージ -->
-            <div class="text-warning">
-                ${errors.name}
-            </div>
-            
+
             <!-- 登録ボタン -->
             <div class="mt-4">
                 <button type="submit" class="btn btn-primary">
