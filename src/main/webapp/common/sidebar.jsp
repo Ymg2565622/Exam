@@ -7,7 +7,7 @@
   	<nav>
 		 <ul class="list-unstyled">
 		   <li class="mb-3">
-		   	<a href="${pageContext.request.contextPath}/scoremanager/main/menu.jsp">メニュー</a>
+		   	<a href="${pageContext.request.contextPath}/scoremanager/main/Menu.action">メニュー</a>
 		   </li>
 		   <li class="mb-3">
 		   	<a href="${pageContext.request.contextPath}/scoremanager/main/StudentList.action">学生管理</a>
