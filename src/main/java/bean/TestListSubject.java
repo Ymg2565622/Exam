@@ -42,7 +42,14 @@ public class TestListSubject implements java.io.Serializable {
 		this.points = points;
 	}
 	public String getPoint(int key) {
-		return points.get(key).toString();
+
+	    if (points == null) {
+	        return "";
+	    }
+
+	    Integer point = points.get(key);
+
+	    return point != null ? point.toString() : "";
 	}
 	public void putPoint(int key, int value) {
 		points.put(key, value);
