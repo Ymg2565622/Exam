@@ -43,17 +43,11 @@ public class TestListStudentExecuteAction extends Action {
 
             // 学生存在チェック
             if (student == null) {
-                errors.put("f5", "学生情報が存在しませんでした。");
 
             } else {
 
                 TestListStudentDao dao = new TestListStudentDao();
                 list = dao.filter(student);
-
-                // 成績がない場合
-                if (list == null || list.size() == 0) {
-                    errors.put("f5", "学生情報が存在しませんでした。");
-                }
             }
         }
 
