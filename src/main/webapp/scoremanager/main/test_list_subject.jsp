@@ -151,7 +151,7 @@
             </c:when>
 
             <c:otherwise>
-                <div class="px-4 text-warning">
+                <div class="px-4">
                     学生情報が存在しませんでした。
                 </div>
             </c:otherwise>

@@ -152,8 +152,8 @@
 
             <c:otherwise>
                 <c:if test="${not empty student}">
-                    <div class="px-4 text-warning">
-                        成績データが存在しません。
+                    <div class="px-4">
+                        成績情報が存在しませんでした
                     </div>
                 </c:if>
             </c:otherwise>
