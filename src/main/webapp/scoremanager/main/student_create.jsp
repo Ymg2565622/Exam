@@ -25,8 +25,7 @@
 			<div class="text-warning">${errors.get("no")}</div>
 			<label class="form-label mt-2" for="student-name-input">氏名</label>
 			<input class="form-control mb-2" id="student-name-input" type="text" name="name" value="${name}"
-				placeholder="氏名を入力してください" maxlength="10" required>
-			<%-- 画面設計書では最大文字数が30に指定されているが、テーブル設計書がvarchar(10)のためそちらに合わせる --%>
+				placeholder="氏名を入力してください" maxlength="30" required>
 			<label class="form-label mt-2" for="student-class-num-select">クラス</label>
 			<select class="form-select mb-2" id="student-class-num-select" name="class_num">
 				<c:forEach var="num" items="${class_num_set}">
