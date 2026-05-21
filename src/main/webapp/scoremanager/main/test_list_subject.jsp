@@ -94,7 +94,8 @@
                         class="form-control"
                         value="${f5}"
                         maxlength="10"
-                        placeholder="学生番号を入力してください">
+                        placeholder="学生番号を入力してください"
+                        required>
                 </div>
 
                 <!-- 学生情報検索ボタン -->
