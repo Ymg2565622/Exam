@@ -1,7 +1,6 @@
 package scoremanager.main;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import bean.School;
@@ -39,19 +38,20 @@ public class SubjectUpdateExecuteAction extends Action {
             return "subject_update.jsp";
         }
 
-        // 科目名未入力
-        if (name == null || name.trim().isEmpty()) {
-            errors.put("name", "科目名を入力してください。");
-        }
-
-        // 同名科目チェック（自分以外）
-        List<Subject> subjects = dao.filter(school);
-        for (Subject s : subjects) {
-            if (!s.getCd().equals(cd) && s.getName().equals(name)) {
-                errors.put("name", "同じ名前の科目が既に登録されています。");
-                break;
-            }
-        }
+        //以下二つのチェックは仕様書では定義されていないので注意
+//        // 科目名未入力
+//        if (name == null || name.trim().isEmpty()) {
+//            errors.put("name", "科目名を入力してください。");
+//        }
+//
+//        // 同名科目チェック（自分以外）
+//        List<Subject> subjects = dao.filter(school);
+//        for (Subject s : subjects) {
+//            if (!s.getCd().equals(cd) && s.getName().equals(name)) {
+//                errors.put("name", "同じ名前の科目が既に登録されています。");
+//                break;
+//            }
+//        }
 
         if (!errors.isEmpty()) {
             request.setAttribute("errors", errors);

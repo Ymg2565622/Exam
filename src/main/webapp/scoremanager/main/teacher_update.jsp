@@ -32,6 +32,6 @@
 				placeholder="同じパスワードを入力してください" maxlength="30">
 			<input class="btn btn-primary mb-3" id="login-button" type="submit" value="変更">
 		</form>
-		<a href="${pageContext.request.contextPath}/scoremanager/main/TeacherLIst.action">戻る</a>
+		<a href="${pageContext.request.contextPath}/scoremanager/main/TeacherList.action">戻る</a>
 	</c:param>
 </c:import>
