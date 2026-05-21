@@ -10,7 +10,7 @@
     <c:param name="content">
 
         <h2 class="h3 mb-3 bg-secondary bg-opacity-10 py-2 px-4">
-            学生別成績一覧
+            成績一覧（学生）
         </h2>
 
         <form method="get" action="TestListStudentExecute.action">
