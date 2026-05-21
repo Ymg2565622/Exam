@@ -14,12 +14,9 @@
         <!-- ================== 検索部分 ================== -->
         <h2 class="h3 mb-3 bg-secondary bg-opacity-10 py-2 px-4">成績管理</h2>
 
-        <!-- 🔍 検索フォーム -->
         <form method="get">
-
             <div class="row border mx-3 mb-3 py-2 align-items-center rounded">
 
-                <!-- 入学年度 -->
                 <div class="col-2">
                     <label class="form-label">入学年度</label>
                     <select class="form-select" name="f1">
@@ -33,7 +30,6 @@
                     </select>
                 </div>
 
-                <!-- クラス -->
                 <div class="col-2">
                     <label class="form-label">クラス</label>
                     <select class="form-select" name="f2">
@@ -47,7 +43,6 @@
                     </select>
                 </div>
 
-                <!-- 科目 -->
                 <div class="col-4">
                     <label class="form-label">科目</label>
                     <select class="form-select" name="f3">
@@ -61,7 +56,6 @@
                     </select>
                 </div>
 
-                <!-- 回数 -->
                 <div class="col-2">
                     <label class="form-label">回数</label>
                     <select class="form-select" name="f4">
@@ -75,11 +69,8 @@
                     </select>
                 </div>
 
-                <!-- 検索 -->
                 <div class="col-2 text-center">
-                    <button type="submit" class="btn btn-secondary">
-                        検索
-                    </button>
+                    <button type="submit" class="btn btn-secondary">検索</button>
                 </div>
 
             </div>
@@ -88,12 +79,10 @@
         <!-- ================== 検索結果 ================== -->
         <c:if test="${not empty student_list}">
 
-            <!-- 科目表示 -->
             <div class="mx-3 mb-2">
                 科目：${f3_name}（${param.f4}回）
             </div>
 
-            <!-- ✅ 成績登録フォーム -->
             <form method="post" action="TestRegistExecute.action">
 
                 <table class="table table-bordered mx-3">
@@ -113,14 +102,14 @@
                             <td>${student.name}</td>
 
                             <td>
-                                <!-- 点数入力 -->
+                                <!-- ✅ 成績変更対応（ここが重要） -->
                                 <input type="number"
                                        name="point_${student.no}"
+                                       value="${point_map[student.no]}"
                                        min="0" max="100"
                                        class="form-control"
                                        style="width:90px;">
 
-                                <!-- 🔥 超重要（これがエラー原因だった） -->
                                 <input type="hidden"
                                        name="regist"
                                        value="${student.no}">
