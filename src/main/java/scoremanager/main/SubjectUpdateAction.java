@@ -1,5 +1,8 @@
 package scoremanager.main;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import bean.School;
 import bean.Subject;
 import bean.Teacher;
@@ -15,26 +18,33 @@ public class SubjectUpdateAction extends Action {
             HttpServletRequest request, HttpServletResponse response
     ) throws Exception {
 
-        // 更新対象の科目コードを取得
         String cd = request.getParameter("cd");
 
-        // 学校情報をセッションから取得（ログイン時に保存されている想定）
         Teacher teacher = (Teacher) request.getSession().getAttribute("teacher");
         School school = teacher.getSchool();
 
-        // Dao の準備
         SubjectDao subjectDao = new SubjectDao();
 
-        // 科目を取得
-        
         Subject subject = subjectDao.get(cd, school);
 
-        // 表示用データをセット
+        // ★ 削除されていた場合（subject == null）
+        if (subject == null) {
+            Map<String, String> errors = new HashMap<>();
+            errors.put("notfound", "この科目はすでに削除されています。");
+
+            request.setAttribute("errors", errors);
+            request.setAttribute("cd", cd);
+            request.setAttribute("name", ""); // 名前は空欄でOK
+
+            return "subject_update.jsp";
+        }
+
+        // ★ 通常時
         request.setAttribute("cd", subject.getCd());
         request.setAttribute("name", subject.getName());
         request.setAttribute("school", subject.getSchool());
 
-        // 更新フォーム JSP へ
         return "subject_update.jsp";
     }
 }
+

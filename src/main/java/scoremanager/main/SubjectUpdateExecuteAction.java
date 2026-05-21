@@ -32,8 +32,10 @@ public class SubjectUpdateExecuteAction extends Action {
         // ★ 科目が存在するかチェック（他から削除された場合）
         Subject current = dao.get(cd, school);
         if (current == null) {
-            errors.put("notfound", "科目が存在していません。");
+            errors.put("notfound", "科目が存在していません");
             request.setAttribute("errors", errors);
+            request.setAttribute("cd", cd);
+            request.setAttribute("name", name);
             return "subject_update.jsp";
         }
 
