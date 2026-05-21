@@ -90,7 +90,8 @@
                         name="f5"
                         class="form-control"
                         value="${f5}"
-                        placeholder="学生番号を入力してください">
+                        placeholder="学生番号を入力してください"
+                        maxlength="10">
                 </div>
 
                 <!-- ✅ 学生検索 -->
